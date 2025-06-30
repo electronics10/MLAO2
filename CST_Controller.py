@@ -17,12 +17,37 @@ class CSTInterface:
         self.opencst()
 
     def opencst(self):
+        # print("CST opening...")
+        # print("Opening new design environment...")
+        # self.de = csti.DesignEnvironment()#.new()
+        # self.prj = self.de.open_project(self.full_path)
+        # print(f"{self.full_path} open")
         print("CST opening...")
-        print("Opening new design environment...")
-        self.de = csti.DesignEnvironment()#.new()
-        # self.de.set_quiet_mode(True) # suppress message box
-        self.prj = self.de.open_project(self.full_path)
-        print(f"{self.full_path} open")
+        allpids = csti.running_design_environments()
+        open = False
+        for pid in allpids:
+            self.de = csti.DesignEnvironment.connect(pid)
+            print(f"Opening {self.full_path}...")
+            try: self.prj = self.de.open_project(self.full_path)
+            except: 
+                print(f"Creating new project {self.full_path}")
+                self.prj = self.de.new_mws()
+                self.prj.save(self.full_path)
+            open = True
+            print(f"{self.full_path} open")
+            break
+        if not open:
+            print("File path not found in current design environment...")
+            print("Opening new design environment...")
+            self.de = csti.DesignEnvironment.new()
+            # self.de.set_quiet_mode(True) # suppress message box
+            try: self.prj = self.de.open_project(self.full_path)
+            except: 
+                print(f"Creating new project {self.full_path}")
+                self.prj = self.de.new_mws()
+                self.prj.save(self.full_path)
+            open = True
+            print(f"{self.full_path} open")
 
     def read(self, result_item):
         results = cstr.ProjectFile(self.full_path, True) #bool: allow interactive
@@ -127,6 +152,12 @@ class CSTInterface:
         self.prj.modeler.add_to_history("domain",command)
         self.save()
         print("Domain set")
+
+    def delete_domain(self):
+        command = ['Sub Main',
+        'Component.Delete "component2"', 'End Sub']
+        res = self.excute_vba(command)
+        return res
 
     def update_distribution(self, binary_sequence):
         print("Material distribution updating...")

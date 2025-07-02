@@ -1,5 +1,7 @@
 # Machine Learning Assisted-Genetic Algorithm
 ## Introduction
+This project aims to provide a flexible automated solution for designing dual band (may be easily extended by altering the fitness calculation method) planar antennas. The whole optimization process is automated by utilizing Python scripts to control CST Studio Suite® 2025 (2023 is also valid). Genetic algorithm (BPSO is another possible method and may be adopted in the future) is used to optimize the antenna topology. The antenna topogy will gradually evolve from a arbitrary design to a spec-satisfying design. The design region of the antenna topology is a pixelated rectangular area with user-defined length, width, height, fineness, and position. This project can be easily integrated with any CST simulation files by directly drawing the design region at the user-defined location in the files. Machine learning-based surrogate model can be used to accelerate the genetic algortihm optimization process by roughly 10~15% faster in average (optional). 
+
 ---
 ## Setup
 Before running the code, ensure you have the following installed:

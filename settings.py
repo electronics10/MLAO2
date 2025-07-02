@@ -47,3 +47,6 @@ FMAX = settings['FMAX'] # GHz
 
 # Plot topologies and S11
 TOPOLOGIES = settings['TOPOLOGIES']
+
+# Load topologgy into CST
+VERIFICATION = settings['VERIFICATION']

@@ -11,8 +11,7 @@ def decode_T2B(topology):
     return np.array([int(bit) for bit in format(int(topology, 16), f'0{NX*NY}b')])
 
 if __name__ == "__main__":
-    topology = "0x120a12ae046268867d8ac5945"
-    binary_array = decode_T2B(topology)
+    binary_array = decode_T2B(VERIFICATION)
     antenna = cstc.CSTInterface(FILEPATH)
     antenna.update_distribution(binary_array)
     antenna.save()

@@ -39,12 +39,11 @@ def plot_topology(indices):
         plt.tight_layout()
         plt.xlabel(f'{WW} (mm)')
         plt.ylabel(f'{LL} (mm)')
-
         plt.savefig(f"figures/topology_{i}.png")
 
 
 if __name__ == "__main__":
     os.makedirs("./figures", exist_ok=True)
     indices = TOPOLOGIES.split()
-    plot_s11(indices)
     plot_topology(indices)
+    plot_s11(indices)

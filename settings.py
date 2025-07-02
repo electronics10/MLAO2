@@ -4,8 +4,7 @@ def load_settings(config_path='settings.json'):
     with open(config_path, 'r') as f:
         return json.load(f)
     
-try: settings = load_settings()
-except Exception as e: print(f"Error loading settings.json: {e}")
+settings = load_settings()
 
 # CST file path============================================
 FILEPATH = settings['FILEPATH']

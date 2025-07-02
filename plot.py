@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-import settings
+from settings import*
 
 def encode_B2T(binary_array):
         decimal_value = int(''.join(map(str, binary_array)), 2)

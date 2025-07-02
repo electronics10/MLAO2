@@ -30,15 +30,15 @@ def plot_topology(indices):
     for i in indices:
         plt.figure(i)
         binar_array = decode_T2B(i)
-        plt.imshow(binar_array.reshape(NX, NY), cmap='binary', vmin=0, vmax=1, origin = 'lower')
+        plt.imshow(binar_array.reshape(NY, NX), cmap='binary', vmin=0, vmax=1, origin = 'lower')
 
         # Turn off ticks and labels
         plt.xticks([])
         plt.yticks([])
         plt.title(f"Topology {i}")
         plt.tight_layout()
-        plt.xlabel(f'{WW} (mm)')
-        plt.ylabel(f'{LL} (mm)')
+        plt.xlabel(f'{LL} (mm)')
+        plt.ylabel(f'{WW} (mm)')
         plt.savefig(f"figures/topology_{i}.png")
 
 

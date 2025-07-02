@@ -64,6 +64,7 @@ or
 python MLAOGA.py
 ```
 for ML usage. Random seed is assigned (2 in default) for replication in case CST crashes (S11 files would be saved to `./s11` for each antenna topology simulation). General optimization process info will be saved to `./data/log_seed.txt` and `./data/GA_seed.csv`. The final design will be plot after optimization.
+
 5. Arbritray antenna topologies (solved in the process) and their corresponding S11 can be plot by running:
 ```
 python plot.py

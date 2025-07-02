@@ -1,6 +1,5 @@
 import sys
-sys.path.append(r"C:\Program Files (x86)\CST STUDIO SUITE 2023\AMD64\python_cst_libraries")
-sys.path.append(r"C:\Program Files (x86)\CST STUDIO SUITE 2024\AMD64\python_cst_libraries")
+# sys.path.append(r"C:\Program Files (x86)\CST STUDIO SUITE 2023\AMD64\python_cst_libraries")
 sys.path.append(r"C:\Program Files (x86)\CST STUDIO SUITE 2025\AMD64\python_cst_libraries")
 import cst
 import cst.results as cstr
@@ -17,11 +16,6 @@ class CSTInterface:
         self.opencst()
 
     def opencst(self):
-        # print("CST opening...")
-        # print("Opening new design environment...")
-        # self.de = csti.DesignEnvironment()#.new()
-        # self.prj = self.de.open_project(self.full_path)
-        # print(f"{self.full_path} open")
         print("CST opening...")
         allpids = csti.running_design_environments()
         open = False
@@ -85,15 +79,15 @@ class CSTInterface:
         res = self.excute_vba (command)
         return command
 
-    def set_frequency_solver(self):
+    def set_frequency_solver(self, fmin=1, fmax=3):
         command = ['Sub Main', 'ChangeSolverType "HF Frequency Domain"', 
-                   'Solver.FrequencyRange "1", "3"', 'End Sub']
+                   f'Solver.FrequencyRange "{fmin}", "{fmax}"', 'End Sub']
         self.excute_vba(command)
         print("Frequency solver set")
 
-    def set_time_solver(self):
+    def set_time_solver(self, fmin=1, fmax=3):
         command = ['ChangeSolverType "HF Time Domain"', 
-                   'Solver.FrequencyRange "1", "3"']
+                   f'Solver.FrequencyRange "{fmin}", "{fmax}"']
         command = "\n".join(command)
         self.prj.modeler.add_to_history("time_solver_and_freq_range",command)
         self.save()
@@ -129,6 +123,11 @@ class CSTInterface:
         return command
         # command = "\n".join(command)
         # self.prj.modeler.add_to_history(f"solid{index}",command)
+
+    def delete_block(self, index):
+        command = ['Sub Main', f'Solid.Delete "component2:solid{index}"', 'End Sub']
+        res = self.excute_vba(command)
+        return res
 
     def set_domain(self): 
         print("Setting domain...")

@@ -7,14 +7,17 @@ import CST_Controller as cstc
 
 class GA_Optimizer:
     def __init__(self):
-        self.renew_fitness_table()
         os.makedirs("./s11", exist_ok=True) # create folder "s11"
         os.makedirs("./data", exist_ok=True) # create folder for fitness progression storage
         self.log_path = f'data/log_{SEED}.txt'
         f = open(self.log_path, 'w')
         f.write(f"SEED = {SEED}\n")
         f.close()
+        self.renew_fitness_table()
         self.antenna = cstc.CSTInterface(FILEPATH)
+        try: self.antenna.delete_results()
+        except: pass
+        self.antenna.set_time_solver(FMIN, FMAX)
         self.fitness_record = []
 
     def encode_B2T(self, binary_array):
@@ -50,23 +53,29 @@ class GA_Optimizer:
         data.to_csv(f's11/s11_{topology}.csv', index=False) # save to CSV
         print(f"S11 saved to 's11/s11_{topology}.csv'")
 
-    def calculate_fitness(self, s11_path, target=(FREQ_L,FREQ_H), goal=GOAL):
-        lfreq = target[0]
-        hfreq = target[1]
+    def calculate_fitness(self, s11_path):
         df = pd.read_csv(s11_path)
         j = 0
         n = 0
         freq = 0
         fitness = 0
-        while freq < hfreq:
+        while freq < LB_FREQ_H:
             freq = df.iloc[j, 0] # Read fequency
-            if freq >= lfreq:
+            if freq >= LB_FREQ_L:
                 s11 = df.iloc[j, 1] # Read s11
                 # fitness += (goal - s11) # Record fitness # the larger the merrier
-                fitness += max(goal, s11) 
+                fitness += max(GOAL, s11) 
                 n += 1
             j += 1
-        fitness = fitness/n/goal
+        while freq < HB_FREQ_H:
+            freq = df.iloc[j, 0] # Read fequency
+            if freq >= HB_FREQ_L:
+                s11 = df.iloc[j, 1] # Read s11
+                # fitness += (goal - s11) # Record fitness # the larger the merrier
+                fitness += max(GOAL, s11) 
+                n += 1
+            j += 1 
+        fitness = fitness/n/GOAL
         return fitness
 
     def assign_fitness(self, binary_array):
@@ -113,6 +122,7 @@ class GA_Optimizer:
         pixels = NX*NY
         pop_indices = np.random.randint(pixels, size = POPULATION_SIZE)
         population = []
+        # Topology encode
         for i in range(POPULATION_SIZE):
             individual = hex(pop_indices[i])
             individual = self.decode_T2B(individual)

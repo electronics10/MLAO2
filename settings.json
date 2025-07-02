@@ -1,0 +1,21 @@
+{
+    "FILEPATH": "CST_Antennas/topop.cst",
+    "LL": 20,
+    "WW": 5,
+    "HC": 0.2,
+    "DD": 1,
+    "XX": 0,
+    "YY": -17,
+    "ZZ": 0,
+    "SEED": 2,
+    "MAX_ITERATIONS": 800,
+    "CONVERGENCE": 0.99,
+    "GOAL": -6,
+    "LB_FREQ_L": 2.4,
+    "LB_FREQ_H": 2.5,
+    "HB_FREQ_L": 5.1,
+    "HB_FREQ_H": 5.9,
+    "FMIN": 2,
+    "FMAX": 6,
+    "TOPOLOGIES": "0x120a12ae046268867d8ac5945 0x16"
+}

@@ -44,6 +44,7 @@ class MLAO_GA(GA_Optimizer):
         os.makedirs(f"./{self.ml_folder}", exist_ok=True)
         self.training_data_path = "artifacts_CNN/training_data.csv"
         if os.path.exists(self.training_data_path): os.remove(self.training_data_path)
+        self.model = AntennaCNN()
     
     def predict(self, population):
         folder = self.ml_folder
@@ -235,6 +236,12 @@ class MLAO_GA(GA_Optimizer):
             # Record progression
             df = pd.DataFrame(self.fitness_record, columns = ['best_fitness'])
             df.to_csv(f'data/progression_{SEED}.csv', index=False)
+
+        print("Converged.\n")
+        import plot as myplt
+        myplt.plot_s11([best_topology])
+        myplt.plot_topology([best_topology])
+        myplt.plt.show()
 
 if __name__ == "__main__":
     optimizer = MLAO_GA()

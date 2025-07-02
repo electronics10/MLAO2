@@ -36,7 +36,6 @@ def plot_topology(indices):
         plt.xticks([])
         plt.yticks([])
         plt.title(f"Topology {i}")
-        # plt.tight_layout()
         plt.xlabel(f'{LL} (mm)')
         plt.ylabel(f'{WW} (mm)')
         plt.savefig(f"figures/topology_{i}.png")

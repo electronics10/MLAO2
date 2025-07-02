@@ -36,31 +36,41 @@ git clone https://github.com/electronics10/MLAO2.git
 ```
 Then, enter the project directory:
 ```
-cd Topology_Optimization
+cd MLAO2
 ```
 
 ### 4. Set Up the Conda Environment
-This project uses a predefined environment file (`environment.yml`) to install all dependencies.
+All dependencies can be find in two of my other projects [[1]](https://github.com/electronics10/Topology_Optimization) and [[2]](https://github.com/electronics10/mlpifa).
 
-- Create the environment (for Windows only):
-```
-conda env create -f environment.yml
-```
+After dependencies are installed:
 - Activate the environment:
 ```
-conda activate autotune
+conda activate my_environment_name
 ```
 
 ### 5. Run the Code
-- Run the main script:
+1. Users can change the settings in `settings.json` for tailored use (e.g., S11 goal, design region size, hyperparameters).
+2. Initialize the pixelated design region in a ".cst" file (automatically create `./CST_Antennas/topop.cst` if not specified). 
 ```
-python main.py
+python initialize.py
+```
+3. Excitation port and other setup (e.g., GPU acceleration) in the ".cst" file should be defined by the user before optimization.
+4. Design the antenna by running optimization code.
+```
+python GA.py
+```
+or
+```
+python MLAOGA.py
+```
+for ML usage. Random seed is assigned (2 in default) for replication in case CST crashes (S11 files would be saved to `./s11` for each antenna topology simulation). General optimization process info will be saved to `./data/log_seed.txt` and `./data/GA_seed.csv`. The final design will be plot after optimization.
+5. Arbritray antenna topologies (solved in the process) and their corresponding S11 can be plot by running:
+```
+python plot.py
+```
+6. One can load arbritrary antenna topology into CST for later usage.
+```
+python verify.py
 ```
 
 
-### Troubleshooting
-- If `conda` commands don’t work, ensure Miniconda is added to your system PATH or restart your terminal.
-- For errors during `conda env create`, ensure you have an active internet connection, as it downloads packages.
-- For errors about CST, ensure CST is added to your system PATH. It can also be done by altering the first few line in `Antenna_Design.py`, such as `sys.path.append(r"C:\Program Files (x86)\CST STUDIO SUITE 2023\AMD64\python_cst_libraries")`.
-- Other CST errors might occur due to version difference and cause filepath name variation. One may check the correct file name in CST and change it in `Antenna_Design.py` according to prompt.
-- Contact me for any further issues.
